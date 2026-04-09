@@ -8,6 +8,7 @@ namespace TopDownCharacter
     public Transform CameraTether => _cameraTetherTransform;
     [SerializeField] TopDownVisualCharacter _visualCharacter;
     public TopDownVisualCharacter VisualCharacter => _visualCharacter;
+    CharacterMotor _motor;
 
     public float TargetLookAngle;
 
@@ -16,6 +17,8 @@ namespace TopDownCharacter
       _cameraTetherTransform.SetParent(null, true);
       _visualCharacter.transform.SetParent(null, true);
       _visualCharacter.BindToCharacter(this);
+
+      _motor = GetComponent<CharacterMotor>();
     }
 
     private void UpdateCameraTetherPosition()
@@ -31,6 +34,8 @@ namespace TopDownCharacter
     {
       UpdateCameraTetherPosition();
       TargetLookAngle = transform.rotation.eulerAngles.z;
+      if (CharacterInput.Provider.MovementInput == Vector2.zero)
+        transform.position = Vector3.MoveTowards(transform.position, _visualCharacter.transform.position, Time.deltaTime * 3);
     }
 
     public static void Lookat2D(Transform transform, Vector2 target)

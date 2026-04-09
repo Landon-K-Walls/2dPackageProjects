@@ -5,8 +5,10 @@ namespace TopDownCharacter
   public class CharacterMotor : MonoBehaviour
   {
     Rigidbody2D _rigidBody;
+    TopDownCharacter _character;
     Vector2 _movementInput;
     Vector2 _velocity;
+    public Vector2 Velocity => _velocity;
     [SerializeField] bool Aiming = false;
     [SerializeField] bool HaltVelocityTurn = false;
     [SerializeField] float _topSpeed = 3;
@@ -15,7 +17,6 @@ namespace TopDownCharacter
     void Awake()
     {
       _rigidBody = GetComponent<Rigidbody2D>();
-
     }
 
     void Update()
