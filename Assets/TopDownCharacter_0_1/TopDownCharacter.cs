@@ -5,33 +5,17 @@ namespace TopDownCharacter
   public class TopDownCharacter : MonoBehaviour
   {
     [SerializeField] Transform _cameraTetherTransform;
-    [SerializeField] Transform _visualCharacterTransform;
+    public Transform CameraTether => _cameraTetherTransform;
+    [SerializeField] TopDownVisualCharacter _visualCharacter;
+    public TopDownVisualCharacter VisualCharacter => _visualCharacter;
+
+    public float TargetLookAngle;
 
     void Awake()
     {
-
-    }
-
-    void OnEnable()
-    {
       _cameraTetherTransform.SetParent(null, true);
-    }
-
-    void OnDisable()
-    {
-      if (_cameraTetherTransform != null)
-        _cameraTetherTransform.SetParent(transform, true);
-    }
-
-    void Update()
-    {
-      UpdateCameraTetherPosition();
-    }
-
-    public static void Lookat2D(Transform transform, Vector2 target)
-    {
-      Vector2 direction = target - (Vector2)transform.position;
-      transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+      _visualCharacter.transform.SetParent(null, true);
+      _visualCharacter.BindToCharacter(this);
     }
 
     private void UpdateCameraTetherPosition()
@@ -42,5 +26,22 @@ namespace TopDownCharacter
           transform.position + Vector3.back * 15,
           Time.deltaTime * distanceMultiplier);
     }
+
+    void Update()
+    {
+      UpdateCameraTetherPosition();
+      TargetLookAngle = transform.rotation.eulerAngles.z;
+    }
+
+    public static void Lookat2D(Transform transform, Vector2 target)
+    {
+      Vector2 direction = target - (Vector2)transform.position;
+      transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+    }
+    public static void SetRotationZ(float angle, Transform transform) =>
+        transform.rotation = Quaternion.Euler(
+        transform.rotation.eulerAngles.x,
+        transform.rotation.eulerAngles.y,
+        angle);
   }
 }

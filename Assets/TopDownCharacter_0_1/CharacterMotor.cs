@@ -7,8 +7,8 @@ namespace TopDownCharacter
     Rigidbody2D _rigidBody;
     Vector2 _movementInput;
     Vector2 _velocity;
-    bool Aiming = false;
-    bool HaltVelocityTurn = false;
+    [SerializeField] bool Aiming = false;
+    [SerializeField] bool HaltVelocityTurn = false;
     [SerializeField] float _topSpeed = 3;
     [SerializeField] float _acceleration = 0.05f;
 
